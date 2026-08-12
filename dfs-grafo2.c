@@ -147,10 +147,28 @@ int main() {
   int fim_fila = 0;
   int fila[n + 1];
   fila[fim_fila++] = atual;
-  printf("\nVisitamos: %d\n", inicio);
+  printf("Visitamos: %d\n", inicio);
 
   while (!parar_BFS) {
-  // se a fila estiver vazia procurar um novo nó não visitado
+
+    // pega o primeiro elemento da fila
+    if (inicio_fila < fim_fila) {
+      atual = fila[inicio_fila++];
+    }
+
+    // Percorre a linha no atual
+    for (int j = 0; j < n; j++) {
+      if (matriz[atual - 1][j] == 1) {
+        if (!visitados_BFS[j]) {
+          visitados_BFS[j] = 1;
+          fila[fim_fila++] = j + 1;
+          printf("Visitamos: %d\n", j + 1);
+        }
+        // ignora se o j+1 ja foi visitado
+      }
+    }
+
+    // verifica se a fila está vazia
     if (inicio_fila == fim_fila) {
       int novo = -1;
 
@@ -171,26 +189,8 @@ int main() {
       }
     }
 
-    // pega o primeiro elemento da fila
-    if (inicio_fila < fim_fila) {
-        atual = fila[inicio_fila++];
-
-      // Percorre a linha no atual
-      for (int j = 0; j < n; j++) {
-        if (matriz[atual - 1][j] == 1) {
-          if (!visitados_BFS[j]) {
-            visitados_BFS[j] = 1;
-            fila[fim_fila++] = j + 1;
-            printf("Visitamos: %d\n", j + 1);
-          }
-          // ignora se o j+1 ja foi visitado
-        }
-      }
-    }
-
-      // verifica se todos foram visitados
+    // verifica se todos foram visitados
     int cont = 0;
-
     for (int i = 0; i < n; i++) {
       if (visitados_BFS[i]) {
         cont++;
